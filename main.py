@@ -1,7 +1,6 @@
 #!coding: utf-8
 
 import requests
-from bs4 import BeautifulSoup
 import re
 
 my_games = [r"Lego.*Pirates",
@@ -9,22 +8,15 @@ my_games = [r"Lego.*Pirates",
             r"Creed.*III",
             r"GTA.*(V|5)"]
 
-print("start")
-PATH = "http://www.xbox.com/pt-BR/xbox-one/backward-compatibility/available-games"
+PATH = "http://www.xbox.com/en-US/xbox-one/backward-compatibility/bcglist.js"
 
-session = requests.Session()
+got = requests.get(PATH)
 
-got = session.get(PATH)
+games = re.findall(r"title:.*'(.*)'", got.content, re.M)
 
-soup = BeautifulSoup(got.content, "html.parser")
+games = [ game.strip() for game in games]
 
-print(soup.contents)
-
-games = soup.find_all(attrs={"class":"game"})
-
-print(games)
-
-games = sorted(map(lambda x: x.text, games))
+games = sorted(games)
 
 print(games)
 
