@@ -18,8 +18,6 @@ games = [ game.strip() for game in games]
 
 games = sorted(games)
 
-print(games)
-
 def contains(game):
     for my_game in my_games:
         if re.search(my_game.lower(), game.lower(), re.IGNORECASE):
