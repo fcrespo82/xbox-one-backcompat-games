@@ -1,7 +1,12 @@
+#!/usr/bin/env python
 #!coding: utf-8
 
+from __future__ import print_function
+from colorama import init, Fore
 import requests
 import re
+
+init()
 
 my_games = [r"Lego.*Pirates",
             r"Lego.*Star Wars", 
@@ -24,7 +29,7 @@ def contains(game):
             return True
     return False
 
-games = filter(contains, games)
+has_games = [ game for game in games if contains(game) ]
 
-for game in games:
-    print(game)
+for game in has_games:
+    print(Fore.GREEN + game)
