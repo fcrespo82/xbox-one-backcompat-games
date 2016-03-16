@@ -31,10 +31,9 @@
                         var r = new RegExp(regex);
                         $log.log(r);
                         $log.log(element.title);
-                        $log.log(r.test(element.title));
-                        if (r.test(element.title)) {
-                            return _.extend(element, { iHave: true })
-                        }
+                        // if (r.test(element.title)) {
+                        //     return _.extend(element, { iHave: true })
+                        // }
                     });
                     return element;
                 });
