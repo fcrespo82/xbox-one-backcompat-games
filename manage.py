@@ -39,6 +39,9 @@ def update_games_list(verbose=False):
         games_list = re.sub(r"'([\s|,])", "\"\g<1>", games_list)
         games_list = json.loads(games_list)
         
+        for game in games_list:
+            game['title'] = game['title'].strip()
+        
         with open(GAMES_FILE, "w") as games_file:
             json.dump(games_list, games_file, indent=4, sort_keys=True)
     return 0
