@@ -1,3 +1,11 @@
 .cover {
+    position: relative;
+    width: 146px;
     height: 200px;
+    overflow: hidden;
+    padding: 10px;
+}
+
+.have {
+    background-color: red;
 }
