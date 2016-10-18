@@ -12,8 +12,7 @@
 <body ng-controller="GamesListCtrl as games" class="container">
     <br/>
     <div class="panel panel-success">
-                <div class="panel-heading">Busca</div>
-
+        <div class="panel-heading">Busca</div>
         <div class="panel-body">
             <form class="form-inline">
                 <div class="form-group">
@@ -22,12 +21,11 @@
                 </div>
                 <div class="form-group">
                     <label for="tenho">Tenho</label>
-                    <input id="tenho" type="checkbox" ng-model="search.have" ng-init="search.have=true" class="form-control" />
+                    <input id="tenho" type="checkbox" ng-model="search.have" ng-init="search.have=true" class="form-control" ng-true-value="true" ng-false-value="" />
                 </div>
             </form>
         </div>
     </div>
-
     <div class="panel panel-primary">
         <div class="panel-heading">Jogos</div>
         <div class="panel-body">

@@ -19,19 +19,18 @@
         }
 
         function listAllGames() {
-            $http.get("/js/games.json", { cache: true }).then(function(response) {
+            $http.get("/js/games.json").then(function(response) {
                 vm.list = response.data;
             });
         }
         function listMyGames() {
-            $http.get("/js/my_games.json", { cache: true }).then(function(response) {
+            $http.get("/js/my_games.json").then(function(response) {
                 vm.myList = response.data;
                 vm.listWithMine = _.map(vm.list, function(element) {
-                    _.extend(element, { "have": false })
                     _.each(vm.myList, function(regex) {
                         var r = new RegExp(regex, "i");
                         if (r.test(element.title)) {
-                            element.have = true;
+                            _.extend(element, { "have": true })
                         }
                     });
                     return element;
