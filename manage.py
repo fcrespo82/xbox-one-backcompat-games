@@ -24,19 +24,21 @@ from docopt import docopt
 GAMES_FILE="js/games.json"
 
 def update_games_list(verbose=False):
-    path = "http://www.xbox.com/en-US/xbox-one/backward-compatibility/bcglist.js"
+    path = "https://www.xbox.com/en-US/xbox-one/backward-compatibility/js/bc-GamesList.js"
     if verbose:
         print("Getting {path}".format(path=path))
     response = requests.get(path)
     file_content = response.content
-    found = re.search(r"var bcgames = (\[.*\]);", file_content, flags=re.DOTALL)
+    found = re.search(r"bcGames = (\[.*\])", file_content, flags=re.DOTALL)
     if found:
+        print("Games found")
         games_list = found.group(1)
-        games_list = games_list.replace("image:", "\"image\":")
-        games_list = games_list.replace("url:", "\"url\":")
-        games_list = games_list.replace("title:", "\"title\":")
+        games_list = re.sub("\s{2,}(\w+):", "\"\\1\":", games_list)
         games_list = re.sub("(\s)'", "\g<1>\"", games_list)
         games_list = re.sub(r"'([\s|,])", "\"\g<1>", games_list)
+        games_list = re.sub(r"\"(,)\s+}", "\"}", games_list)
+        
+        print(games_list)
         games_list = json.loads(games_list)
         
         for game in games_list:
