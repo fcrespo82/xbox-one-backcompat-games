@@ -7,27 +7,25 @@
 
     GamesListCtrl.$inject = ['$log', '$http', '_'];
     function GamesListCtrl($log, $http, _) {
-        var vm = this;
-
-        activate();
-
-        ////////////////
+        var self = this;
 
         function activate() {
-            listAllGames();
-            listMyGames();
+            listAllGames().then(function(response) {
+                self.list = response.data;
+                listMyGames();
+            })
+            
         }
 
-        function listAllGames() {
-            $http.get("/js/games.json").then(function(response) {
-                vm.list = response.data;
-            });
+        function listAllGames(callback) {
+            return $http.get("/js/games.json");
         }
+
         function listMyGames() {
             $http.get("/js/my_games.json").then(function(response) {
-                vm.myList = response.data;
-                vm.listWithMine = _.map(vm.list, function(element) {
-                    _.each(vm.myList, function(regex) {
+                self.myList = response.data;
+                self.listWithMine = _.map(self.list, function(element) {
+                    _.each(self.myList, function(regex) {
                         var r = new RegExp(regex, "i");
                         if (r.test(element.title)) {
                             _.extend(element, { "have": true })
@@ -38,5 +36,7 @@
             });
 
         }
+
+        self.$postLink = activate;
     }
 })();
