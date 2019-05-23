@@ -21,7 +21,7 @@ import BaseHTTPServer
 from SimpleHTTPServer import SimpleHTTPRequestHandler
 from docopt import docopt
 
-GAMES_FILE="js/games.json"
+GAMES_FILE="src/assets/games.json"
 
 def update_games_list(verbose=False):
     path = "https://www.xbox.com/en-US/xbox-one/backward-compatibility/js/bc-GamesList.js"
