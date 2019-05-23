@@ -2,11 +2,12 @@
 	"version": "0.2.0",
 	"configurations": [
 		{
-			"name": "Python",
-			"type": "python",
+			"name": "Launch Angular",
+			"type": "chrome",
 			"request": "launch",
-			"program": "main.py",
-			"stopOnEntry": true
+			"preLaunchTask": "npm: start",
+			"url": "http://localhost:4200/",
+			"webRoot": "${workspaceFolder}"
 		}
 	]
 }
