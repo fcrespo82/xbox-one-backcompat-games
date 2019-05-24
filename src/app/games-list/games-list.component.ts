@@ -1,7 +1,6 @@
-import { Component, OnInit, Output } from '@angular/core';
+import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { DomSanitizer } from '@angular/platform-browser';
-import { GameComponent } from '../game/game.component';
+import { Game } from '../game';
 
 @Component({
   selector: 'games-list',
@@ -9,34 +8,35 @@ import { GameComponent } from '../game/game.component';
 })
 export class GamesListComponent implements OnInit {
 
-  allGames: any[]
+  allGames: Game[] = []
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient, private cdr: ChangeDetectorRef) { }
 
   ngOnInit() {
-    this.listAllGames()
-  }
-
-  listAllGames() {
-    this.http.get("./assets/games.json").subscribe(
-      (data: any[]) => {
-        this.allGames = data
-        this.listMyGames()
-      })
-  }
-
-  listMyGames() {
-    this.http.get("./assets/my_games.json").subscribe(
-      (data: string[]) => {
-        this.allGames = this.allGames.map((game, i, a) => {
-          data.forEach((regex, i, a) => {
-            var caseInsensitiveRegex = new RegExp(regex, "i");
-            if (caseInsensitiveRegex.test(game.title)) {
-              game.have = true
-            }
+    this.getAllGames().subscribe(
+      (allGames: Game[]) => {
+        this.getMyGames().subscribe(
+          (myGames: string[]) => {
+            const games = allGames.map((game) => {
+              myGames.forEach((regex) => {
+                var caseInsensitiveRegex = new RegExp(regex, "i");
+                if (caseInsensitiveRegex.test(game.title)) {
+                  game.have = true
+                }
+              })
+              return game
+            })
+            this.allGames = games
+            this.cdr.detectChanges()
           })
-          return game
-        })
       })
+  }
+
+  getAllGames() {
+    return this.http.get("./assets/games.json")
+  }
+
+  getMyGames() {
+    return this.http.get("./assets/my_games.json")
   }
 }
